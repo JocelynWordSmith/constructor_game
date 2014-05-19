@@ -29,3 +29,57 @@ body {
     color: #000;
     padding: 0.2em 0;
 }
+
+/*my code*/
+
+/*button mixin*/
+@mixin glowbutt($color:#7A1F1A){
+
+    display:inline-block;
+    width:100px;
+    height:100px;
+    line-height:100px;
+    text-align: center;
+    background: $color;
+    border-radius: 50%;
+    box-shadow: inset 0 -6px 0 0 darken($color, 12%);
+    margin: 10px;
+    transition: all 0 0 linear;
+    
+    &:hover {
+        height: 97px;
+        box-shadow: inset 0 -3px 0 0 darken($color, 12%);
+        margin-top: 13px;
+        margin-bottom: 10px;
+    }
+    
+    &:active {
+        height: 93px;
+        margin-top: 17px;
+        margin-bottom: 10px;
+        width: 97px;
+        background: lighten($color, 14%);
+        box-shadow: 0 0 15px 5px lighten($color,14%);
+    }
+}
+/*buttons on screen*/
+.button1 {
+@include glowbutt(#96dbe5)
+}
+.button2 {
+@include glowbutt(#ab76d3)
+}
+.button3 {
+@include glowbutt(#f92772)
+}
+
+
+
+
+
+
+
+
+
+
+
