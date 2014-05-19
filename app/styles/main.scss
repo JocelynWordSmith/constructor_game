@@ -62,20 +62,24 @@ body {
         box-shadow: 0 0 15px 5px lighten($color,14%);
     }
 }
-/*buttons on screen*/
-.button1 {
+/*top buttons on screen*/
+.fighter-select {
 @include glowbutt(#96dbe5)
 }
-.button2 {
+.mage-select {
 @include glowbutt(#ab76d3)
 }
-.button3 {
+.brawler-select {
 @include glowbutt(#f92772)
 }
+.log-stats {
+@include glowbutt(#BA2116)
+}
 
-
-
-
+/*2nd button row*/
+.take-hit {
+@include glowbutt(#96dbe5)
+}
 
 
 
