@@ -37,24 +37,30 @@ function Player (type) {
 function Monster (level) {
 	this.level = level;
 	this.str = level;
-	this.hp = level * 3;
-	if (n >= 0) {
-		this.name = ' Hob-goblin'
-	}
-	if (n > 3) {
-	this.name = ' Robert-goblin';
-	thePlayer.str += 1; 
-	thePlayer.wis += 1; 
+	this.hp = level * 2;
+	if (n >= 0) {this.name = ' Hob-goblin'}
+	if (n > 4) {this.name = ' Rob-goblin'}
+	if (n > 9) {this.name = ' NAN-G0bl1n'}
+		
+	if (n == 5) {
+	thePlayer.str += 2; 
+	thePlayer.wis += 2; 
 	thePlayer.def += 1; 
-	thePlayer.hp += 15; 
+	thePlayer.hp += 20; 
 	updateStats(thePlayer)
 	}
-	if (n > 8) {
-	this.name = ' NAN-G0bl1n';
-	thePlayer.str += 1; 
-	thePlayer.wis += 1; 
+	if (n == 7) {
+	thePlayer.str += 2; 
+	thePlayer.wis += 2; 
+	// thePlayer.def += 1; 
+	thePlayer.hp += 8; 
+	updateStats(thePlayer)
+	}
+	if (n == 10) {
+	thePlayer.str += 3; 
+	thePlayer.wis += 3; 
 	thePlayer.def += 1; 
-	thePlayer.hp += 15; 
+	thePlayer.hp += 20; 
 	updateStats(thePlayer)
 	}	
 	if (n == 11) {
@@ -168,9 +174,13 @@ $('.tackle').click(function(){
 $('.monster-turn').click(function(){		
 	
 	thePlayer.hp -= theMonster.str;
-	updateStats(thePlayer);
-	begin($('.monster-turn'),$('.battle'), 'Your Turn', null);
-
+	if (thePlayer.hp <= 0){
+		document.write('THEY HAVE SET US UP THE BOMB. you lose.')
+	}
+	else {
+		updateStats(thePlayer);
+		begin($('.monster-turn'),$('.battle'), 'Your Turn', null);
+	}
 });
 
 
