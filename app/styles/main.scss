@@ -77,13 +77,25 @@ body {
 }
 
 /*2nd button row*/
-.take-hit {
+.fight {
 @include glowbutt(#96dbe5)
 }
 
+/*battle buttons*/
+.attack {
+@include glowbutt(#96dbe5)
+}
+.spell {
+@include glowbutt(#ab76d3)
+}
+.tackle {
+@include glowbutt(#f92772)
+}
 
-
-
+/*monsters turn*/
+.monster-turn {
+@include glowbutt(#ab76d3)
+}
 
 
 

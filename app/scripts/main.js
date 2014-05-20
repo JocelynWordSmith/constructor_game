@@ -1,56 +1,113 @@
-$('.round-one').hide();
+//hides buttons not in use
+$('.in-line').hide();
+
+//defines player and monster empty obj
+var thePlayer;
+var theMonster = {name: 'goblin'};
+var n = 0;
+
 
 // establish properties of the player constructor
 function Player (type) {
 
 	if (type == 'fighter') {
+		this.hero = type;
 		this.str = 5;
 		this.wis = 2;
 		this.def = 3;
 	}
 	else if (type == 'mage') {
+		this.hero = type;
 		this.str = 3;
 		this.wis = 5;
 		this.def = 2;
 	}
 	else if (type == 'brawler') {
+		this.hero = type;
 		this.str = 4;
 		this.wis = 2;
 		this.def = 6;
 	}
 
-	this.hp = this.def + this.str + this.wis;
-	this.atk = this.str * 2;
-	this.mgc = this.wis * 2;
-	this.blk = this.def / 2;
+	this.hp = 10;
+
 }
 
 //establish the monster constructor
 function Monster (level) {
-	this.hp = level * level;
-	this.atk = level * 2;
+	this.level = level;
+	this.str = level;
+	this.hp = level * 3;
+	if (n >= 0) {
+		this.name = ' Hob-goblin'
+	}
+	if (n > 3) {
+	this.name = ' Robert-goblin';
+	thePlayer.str += 1; 
+	thePlayer.wis += 1; 
+	thePlayer.def += 1; 
+	thePlayer.hp += 15; 
+	updateStats(thePlayer)
+	}
+	if (n > 8) {
+	this.name = ' NAN-G0bl1n';
+	thePlayer.str += 1; 
+	thePlayer.wis += 1; 
+	thePlayer.def += 1; 
+	thePlayer.hp += 15; 
+	updateStats(thePlayer)
+	}	
+	if (n == 11) {
+		document.write('YOU HAVE SAVED THE KINGDOM');
+	}
+}
+
+function summonMonster (level) {
+	return theMonster = new Monster(level);
 }
 
 //hides the current buttons, shows the next buttons, sets player
-function begin (last, next, type) {
+function begin (last, next, message) {
 	last.hide();
 	next.show();
-	next.before('You have chosen the ' + type);
-	return thePlayer = new Player(type);
+	$('.message').html(message);
+
+
+
+}
+
+// function to update the stats
+function updateStats (obj) {
+
+	if (obj == thePlayer){
+
+		$('.stats').html('STR: ' + obj.str + '<br>WIS: ' + obj.wis + '<br>DEF: ' + obj.def + '<br>HP: ' + obj.hp );
+	}
+	else if (obj == theMonster){
+		
+		$('.baddy').html('LVL: ' + obj.level + '<br>HP: ' + obj.hp);
+	}
+
 }
 //sets the player to fighter
 $('.fighter-select').click(function(){
-	begin($('.intro'),$('.round-one'), 'fighter');
+	begin($('.intro'),$('.ready'), 'You have chosen the fighter');
+	thePlayer = new Player('fighter');
+	updateStats(thePlayer);
 });
 
 //sets the player to mage
 $('.mage-select').click(function(){
-	begin($('.intro'),$('.round-one'), 'mage');
+	begin($('.intro'),$('.ready'), 'You have chosen the mage');
+	thePlayer = new Player('mage');
+	updateStats(thePlayer);
 });
 
 //sets the player to brawler
 $('.brawler-select').click(function(){
-	begin($('.intro'),$('.round-one'), 'brawler');
+	begin($('.intro'),$('.ready'), 'You have chosen the brawler');
+	thePlayer = new Player('brawler');
+	updateStats(thePlayer);
 });
 
 //logs the current player stats in the console
@@ -62,14 +119,58 @@ $('.log-stats').click(function(){
 
 });
 
+//begins monster fight
+$('.fight').click(function(){
+	n = n + 1;
+
+	summonMonster(n);
+	begin($('.ready'),$('.battle'), 'You have encountered a level ' + theMonster.level + theMonster.name);
+	updateStats(theMonster);
+});
+
+
+$('.attack').click(function(){
+	theMonster.hp -= thePlayer.str;
+	updateStats(theMonster);
+	if (theMonster.hp < 1) {
+		begin($('.battle'),$('.ready'), 'You have killed a level ' + theMonster.level + theMonster.name);
+	}
+	else {
+		begin($('.battle'),$('.monster-turn'), 'the monster is going to attack for ' + theMonster.str + ' damage');
+	}
+});
+$('.spell').click(function(){
+	theMonster.hp -= thePlayer.wis;
+	updateStats(theMonster);
+	if (theMonster.hp < 1) {
+		begin($('.battle'),$('.ready'), 'You have killed a level ' + theMonster.level + theMonster.name);
+	}
+	else {
+		begin($('.battle'),$('.monster-turn'), 'the monster is going to attack for ' + theMonster.str + ' damage');
+	}
+});
+$('.tackle').click(function(){
+	theMonster.hp -= (thePlayer.def * 2);
+	thePlayer.hp -= (thePlayer.def / 2);
+	updateStats(theMonster);
+	updateStats(thePlayer);
+	if (theMonster.hp < 1) {
+		begin($('.battle'),$('.ready'), 'You have killed a level ' + theMonster.level + theMonster.name);
+	}
+	else {
+		begin($('.battle'),$('.monster-turn'), 'the monster is going to attack for ' + theMonster.str + ' damage');
+	}
+});
+
+
+
 //does damage to the player
-$('.take-hit').click(function(){
-	if (thePlayer.hp < 1) {
-		document.write('You Died');
-	}
-	else {		
-		return thePlayer.hp = thePlayer.hp - 20;
-	}
+$('.monster-turn').click(function(){		
+	
+	thePlayer.hp -= theMonster.str;
+	updateStats(thePlayer);
+	begin($('.monster-turn'),$('.battle'), 'Your Turn', null);
+
 });
 
 
